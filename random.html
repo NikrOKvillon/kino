@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Рандомные словосочетания</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: rgb(116, 141, 116);
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #99335d;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 10px;
+    }
+
+    #randomPhrase {
+      font-size: 24px;
+      font-weight: bold;
+      color: rgb(229, 255, 0);
+      margin-bottom: 10px;
+    }
+
+    #inputPhrases {
+      width: 1500px;
+      height: 500px;
+      padding: 10px;
+      resize: none;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .button-container a {
+            display: inline-block;
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .button-container a:hover {
+            background-color: gray;
+        }
+
+    button {
+      background-color: red;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: purple;
+    }
+
+    @media (max-width: 767px) {
+            #inputPhrases {
+                width: 90%;
+                height: 200px; /* Уменьшим высоту поля для ввода на мобильных устройствах */
+            }
+
+            .button-container a {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+
+            button {
+                width: 90%;
+            }
+        }
+  </style>
+</head>
+
+<body>
+  <div class="button-container">
+    <a href="../Calculation_and_Random/film.html">Расчёт</a>
+</div>
+  <h1>Рандомайзер фильмов</h1>
+  <div id="container">
+    <p id="randomPhrase">Рандомный фильм...</p>
+    <textarea id="inputPhrases" placeholder="Ввести фильмы через ;"></textarea>
+    <button onclick="generateRandomPhrase()">Зарандомить</button>
+  </div>
+
+  <script>
+    function extractPhrases(input) {
+      const regex = /\[(.*?)\]/g;
+      const matches = [];
+      let match;
+
+      while ((match = regex.exec(input)) !== null) {
+        matches.push(match[1]);
+      }
+
+      return matches;
+    }
+
+    function generateRandomPhrase() {
+      const inputPhrases = document.getElementById("inputPhrases").value;
+      const phrasesInBrackets = extractPhrases(inputPhrases);
+      const allPhrases = inputPhrases.replace(/\[.*?\];?/g, '');
+      const allPhrasesArray = allPhrases.split(";").map(phrase => phrase.trim());
+
+      let finalPhrases = [...phrasesInBrackets, ...allPhrasesArray];
+
+      const randomIndex = Math.floor(Math.random() * finalPhrases.length);
+      const randomPhrase = finalPhrases[randomIndex];
+
+      const outputElement = document.getElementById("randomPhrase");
+      outputElement.textContent = randomPhrase;
+    }
+  </script>
+</body>
+
+</html>
